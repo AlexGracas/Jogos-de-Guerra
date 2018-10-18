@@ -24,5 +24,25 @@ namespace JogosDeGuerra
         {
             InitializeComponent();
         }
+
+        private void BtnEscolherExercito_Click(object sender, RoutedEventArgs e)
+        {
+            AbstractFactoryExercito factory = null;
+            if(sender == BtnEgito)
+            {
+                //factory = 
+            }else if(sender == BtnPersia)
+            {
+                factory = new FactoryExercitoPersa();
+            }else if(sender == BtnIndia)
+            {
+                factory = new FactoryExercitoIndiano();
+            }
+
+           
+            TelaDeGuerra tg = new TelaDeGuerra();
+            tg.FactoryExercito = factory;
+            tg.ShowDialog();
+        }
     }
 }

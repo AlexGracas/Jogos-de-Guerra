@@ -9,15 +9,28 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ButtonCriarArqueiro" Click="ButtonCriarArqueiro_Click" Grid.Row="1" Grid.Column="0">Criar Arqueiro</Button>
-        <Button x:Name="ButtonCriarGuerreiro" Click="ButtonCriarGuerreiro_Click" Grid.Row="1" Grid.Column="1">Criar Guerreiro</Button>
-        <Button x:Name="ButtonCriarCavalaria" Click="ButtonCriarCavalaria_Click" Grid.Row="1" Grid.Column="2">Criar Cavalaria</Button>
+        <Label x:Name="LabelNumeroElementos" 
+               Grid.Row="1"
+               Content="{Binding Path=Elementos.Count}"
+               />
+        <Label x:Name="LabelSaudeElemento" 
+               Grid.Row="1" Grid.Column="2">9999</Label>
+        <Button x:Name="ButtonCriarArqueiro" Click="ButtonCriarArqueiro_Click" Grid.Row="2" Grid.Column="0">Criar Arqueiro</Button>
+        <Button x:Name="ButtonCriarGuerreiro" Click="ButtonCriarGuerreiro_Click" Grid.Row="2" Grid.Column="1">Criar Guerreiro</Button>
+        <Button x:Name="ButtonCriarCavalaria" Click="ButtonCriarCavalaria_Click" Grid.Row="2" Grid.Column="2">Criar Cavalaria</Button>
+        <Button x:Name="ButtonDesfazer" Click="ButtonDesfazer_Click" Grid.Row="2" 
+                Grid.Column="3">Desfazer</Button>
+        <Button x:Name="ButtonRefazer" Click="ButtonRefazer_Click" Grid.Row="2" 
+                Grid.Column="4">Refazer</Button>
     </Grid>
 </Window>

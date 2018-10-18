@@ -7,8 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button>India</Button>
-        <Button Content="Persia"/>
-        <Button Content="Egito"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Click="BtnEscolherExercito_Click"  
+                Grid.Row="0" x:Name="BtnIndia">India</Button>
+        <Button Click="BtnEscolherExercito_Click" Grid.Row="1"
+                Content="Persia" x:Name="BtnPersia"/>
+        <Button Click="BtnEscolherExercito_Click" 
+                Grid.Row="2" Content="Egito" 
+                x:Name="BtnEgito"/>
     </Grid>
 </Window>

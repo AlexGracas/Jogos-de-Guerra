@@ -8,5 +8,9 @@ namespace JogosDeGuerra
 {
     public interface ElementosDoExercito
     {
+     /*   Posicao Posicao { get; set; }
+
+        int Saude { get; set; }
+        */
     }
 }

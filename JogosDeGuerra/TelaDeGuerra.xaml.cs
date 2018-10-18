@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,37 +18,73 @@ namespace JogosDeGuerra
     /// <summary>
     /// Interaction logic for TelaDeGuerra.xaml
     /// </summary>
-    public partial class TelaDeGuerra : Window
+    public partial class TelaDeGuerra : Window, 
+        INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler 
+            PropertyChanged;
+
+        private void NotifyPropertyChanged(String propertyName = "")
+        {
+            PropertyChanged?.
+                Invoke(this, 
+                new PropertyChangedEventArgs(propertyName));
+        }
+
         public TelaDeGuerra()
         {
+            this.DataContext = this;
             InitializeComponent();
         }
 
-        public Stack<Command> Comandos { get; set; }
+        public CommandManager CommandManager { get; set; }
+            = new CommandManager();
 
-        public List<ElementosDoExercito> Elementos { get; set; }
+        public List<ElementosDoExercito> 
+            Elementos { get; set; }
+            = new List<ElementosDoExercito>();
 
         public AbstractFactoryExercito FactoryExercito {get;set;}
 
         private void ButtonCriarArqueiro_Click(object sender, RoutedEventArgs e)
-        {
-            Command cmd = new CommandCriarGuerreiro(this);
-
-            cmd.Execute();
-            this.Comandos.Push(cmd);
+        {            
+            
+            Arqueiro arqueiro = FactoryExercito.
+                CriarArqueiro();
+            this.Elementos.Add(arqueiro);
+            this.NotifyPropertyChanged("Elementos");
         }
 
         private void ButtonCriarGuerreiro_Click(object sender, RoutedEventArgs e)
         {
-            Guerreiro guerreiro = FactoryExercito.CriarGuerreiro();
-            this.Elementos.Add(guerreiro);
-        }
+            Command cmd = new CommandCriarGuerreiro(
+                this.FactoryExercito, 
+                this.Elementos);
+            this.CommandManager.Execute(cmd);
+            this.NotifyPropertyChanged("Elementos");
 
+        }
         private void ButtonCriarCavalaria_Click(object sender, RoutedEventArgs e)
         {
-            Cavalaria cavalaria = FactoryExercito.CriarCavalaria();
-            this.Elementos.Add(cavalaria);
+
+            Command cmd = new CommandCriarCavalaria(
+                this.FactoryExercito,
+                this.Elementos);
+            this.CommandManager.Execute(cmd);
+            this.NotifyPropertyChanged("Elementos");
+        }
+
+        private void ButtonDesfazer_Click(object sender, RoutedEventArgs e)
+        {
+            CommandManager.Undo();
+            this.NotifyPropertyChanged("Elementos");
+        }
+
+        private void ButtonRefazer_Click(object sender, RoutedEventArgs e)
+        {
+            CommandManager.Redo();
+            this.NotifyPropertyChanged("Elementos");
         }
     }
 }

@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandManager.cs" />
+    <Compile Include="FactoryExercitoPersa.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="ElementosDoExercito.cs" />
     <Compile Include="TelaDeGuerra.xaml.cs">
