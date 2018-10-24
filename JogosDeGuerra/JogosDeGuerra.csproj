@@ -56,9 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommandManager.cs" />
-    <Compile Include="FactoryExercitoPersa.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="ElementosDoExercito.cs" />
     <Compile Include="TelaDeGuerra.xaml.cs">
       <DependentUpon>TelaDeGuerra.xaml</DependentUpon>
     </Compile>
@@ -66,24 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AbstractFactoryExercito.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Arqueiro.cs" />
-    <Compile Include="ArqueiroEgipicio.cs" />
-    <Compile Include="ArqueiroIndiano.cs" />
-    <Compile Include="ArqueiroPersa.cs" />
-    <Compile Include="Cavalaria.cs" />
-    <Compile Include="CavalariaEgipicia.cs" />
-    <Compile Include="CavalariaIndiana.cs" />
-    <Compile Include="CavalariaPersa.cs" />
-    <Compile Include="FactoryExercitoIndiano.cs" />
-    <Compile Include="Guerreiro.cs" />
-    <Compile Include="GuerreiroEgipicio.cs" />
-    <Compile Include="GuerreiroIndiano.cs" />
-    <Compile Include="GuerreiroPersa.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -119,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JogosDeGuerraModel\JogosDeGuerraModel.csproj">
+      <Project>{bb565a97-e991-48b9-973f-d582c663297f}</Project>
+      <Name>JogosDeGuerraModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
