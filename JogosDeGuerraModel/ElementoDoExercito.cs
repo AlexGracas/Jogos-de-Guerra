@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JogosDeGuerra
+namespace JogosDeGuerraModel
 {
-    public interface ElementosDoExercito
+    public interface ElementoDoExercito
     {
      /*   Posicao Posicao { get; set; }
 

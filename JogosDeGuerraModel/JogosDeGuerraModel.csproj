@@ -45,18 +45,23 @@
     <Compile Include="ArqueiroEgipicio.cs" />
     <Compile Include="ArqueiroIndiano.cs" />
     <Compile Include="ArqueiroPersa.cs" />
+    <Compile Include="Batalha.cs" />
     <Compile Include="Cavalaria.cs" />
     <Compile Include="CavalariaEgipicia.cs" />
     <Compile Include="CavalariaIndiana.cs" />
     <Compile Include="CavalariaPersa.cs" />
-    <Compile Include="ElementosDoExercito.cs" />
+    <Compile Include="ElementoDoExercito.cs" />
+    <Compile Include="Exercito.cs" />
     <Compile Include="FactoryExercitoIndiano.cs" />
     <Compile Include="FactoryExercitoPersa.cs" />
     <Compile Include="Guerreiro.cs" />
     <Compile Include="GuerreiroEgipicio.cs" />
     <Compile Include="GuerreiroIndiano.cs" />
     <Compile Include="GuerreiroPersa.cs" />
+    <Compile Include="Pessoa.cs" />
+    <Compile Include="Posicao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tabuleiro.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

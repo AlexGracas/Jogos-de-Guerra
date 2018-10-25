@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JogosDeGuerraModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +18,12 @@ namespace JogosDeGuerra
     {
         AbstractFactoryExercito Factory { get; set; }
         
-        List<ElementosDoExercito> Elementos { get; set;}
-        public ElementosDoExercito Elemento { get; set;}
+        List<ElementoDoExercito> Elementos { get; set;}
+        public ElementoDoExercito Elemento { get; set;}
 
         public CommandCriarGuerreiro(
             AbstractFactoryExercito factory, 
-            List<ElementosDoExercito> elementos)
+            List<ElementoDoExercito> elementos)
         {
             this.Elementos = elementos;
             this.Factory = factory;
@@ -45,12 +46,12 @@ namespace JogosDeGuerra
     {
         AbstractFactoryExercito Factory { get; set; }
 
-        List<ElementosDoExercito> Elementos { get; set; }
-        public ElementosDoExercito Elemento { get; set; }
+        List<ElementoDoExercito> Elementos { get; set; }
+        public ElementoDoExercito Elemento { get; set; }
 
         public CommandCriarCavalaria(
             AbstractFactoryExercito factory,
-            List<ElementosDoExercito> elementos)
+            List<ElementoDoExercito> elementos)
         {
             this.Elementos = elementos;
             this.Factory = factory;

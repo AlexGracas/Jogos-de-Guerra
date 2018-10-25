@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JogosDeGuerraModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -41,9 +42,9 @@ namespace JogosDeGuerra
         public CommandManager CommandManager { get; set; }
             = new CommandManager();
 
-        public List<ElementosDoExercito> 
+        public List<ElementoDoExercito> 
             Elementos { get; set; }
-            = new List<ElementosDoExercito>();
+            = new List<ElementoDoExercito>();
 
         public AbstractFactoryExercito FactoryExercito {get;set;}
 

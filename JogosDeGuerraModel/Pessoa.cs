@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    public interface Cavalaria : ElementoDoExercito
+    class Pessoa
     {
+        public IList<Batalha> Batalhas { get; set; }
     }
 }

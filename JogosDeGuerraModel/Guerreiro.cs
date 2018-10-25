@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JogosDeGuerra
+namespace JogosDeGuerraModel
 {
-    public interface Guerreiro : ElementosDoExercito
+    public interface Guerreiro : ElementoDoExercito
     {
     }
 }

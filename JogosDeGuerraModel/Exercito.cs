@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    public interface Cavalaria : ElementoDoExercito
+    public class Exercito
     {
+        public IEnumerable<ElementoDoExercito> Elementos { get; set; }
+
+
     }
 }
