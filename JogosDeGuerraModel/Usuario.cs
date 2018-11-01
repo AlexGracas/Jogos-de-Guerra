@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    class Pessoa
+    public class Usuario
     {
         public IList<Batalha> Batalhas { get; set; }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    class Batalha
+    public class Batalha
     {
         Tabuleiro Tabuleiro { get; set; }
 

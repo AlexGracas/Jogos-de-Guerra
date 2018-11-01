@@ -10,6 +10,9 @@ namespace JogosDeGuerraModel
     {
         public IEnumerable<ElementoDoExercito> Elementos { get; set; }
 
+        public Batalha Batalha { get; set; }
+
+        public Usuario Usuario { get; set; }
 
     }
 }
