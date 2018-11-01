@@ -9,5 +9,7 @@ namespace JogosDeGuerraModel
     public class Usuario
     {
         public IList<Batalha> Batalhas { get; set; }
+
+        public String Name { get; set; }
     }
 }
