@@ -13,9 +13,9 @@ namespace JogosDeGuerraModel
             return new ArqueiroIndiano();
         }
 
-        public override Cavalaria CriarCavalaria()
+        public override Cavaleiro CriarCavalaria()
         {
-            return new CavalariaIndiana();
+            return new CavaleiroIndiana();
         }
 
         public override Guerreiro CriarGuerreiro()

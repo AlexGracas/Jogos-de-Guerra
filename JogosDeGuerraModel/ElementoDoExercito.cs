@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    public interface ElementoDoExercito
+    public abstract class ElementoDoExercito
     {
-     /*   Posicao Posicao { get; set; }
+        public int Id { get; set; }
+        public int Saude { get; set; }
+        public Tabuleiro Tabuleiro { get; set; }
+        public Exercito Exercito { get; set; }
 
-        int Saude { get; set; }
-        */
+        public abstract int AlcanceMovimento {get; protected set;}
+    
+        public abstract int AlcanceAtaque { get; protected set; }
+
+        public abstract int Ataque { get; protected set; }
     }
+
+
 }

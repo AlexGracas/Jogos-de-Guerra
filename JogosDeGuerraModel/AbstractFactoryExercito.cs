@@ -10,11 +10,11 @@ namespace JogosDeGuerraModel
     {
         public abstract Arqueiro CriarArqueiro();
 
-        public abstract Cavalaria CriarCavalaria();
+        public abstract Cavaleiro CriarCavalaria();
 
         public abstract Guerreiro CriarGuerreiro();
 
-        public enum Nacao { India, Persia, Egito};
+        public enum Nacao { India=1, Persia=2, Egito=3};
 
         /// <summary>
         /// Este método é uma factory para a Abstract Factory.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
-    public interface Cavalaria : ElementoDoExercito
+    class CavaleiroIndiana : Cavaleiro
     {
     }
 }

@@ -8,11 +8,13 @@ namespace JogosDeGuerraModel
 {
     public class Exercito
     {
-        public IEnumerable<ElementoDoExercito> Elementos { get; set; }
+        public int Id { get; set; }
+        public ICollection<ElementoDoExercito> Elementos { get; set; }
 
         public Batalha Batalha { get; set; }
 
         public Usuario Usuario { get; set; }
 
+        public AbstractFactoryExercito.Nacao Nacao { get; set; }
     }
 }

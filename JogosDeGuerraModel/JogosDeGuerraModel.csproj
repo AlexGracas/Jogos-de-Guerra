@@ -55,10 +55,10 @@
     <Compile Include="ArqueiroIndiano.cs" />
     <Compile Include="ArqueiroPersa.cs" />
     <Compile Include="Batalha.cs" />
-    <Compile Include="Cavalaria.cs" />
-    <Compile Include="CavalariaEgipicia.cs" />
-    <Compile Include="CavalariaIndiana.cs" />
-    <Compile Include="CavalariaPersa.cs" />
+    <Compile Include="Cavaleiro.cs" />
+    <Compile Include="CavaleiroEgipicia.cs" />
+    <Compile Include="CavaleiroIndiana.cs" />
+    <Compile Include="CavaleiroPersa.cs" />
     <Compile Include="ElementoDoExercito.cs" />
     <Compile Include="Exercito.cs" />
     <Compile Include="FactoryExercitoIndiano.cs" />
