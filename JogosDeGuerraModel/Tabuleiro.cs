@@ -37,8 +37,7 @@ namespace JogosDeGuerraModel
         {
             Casas = new ElementoDoExercito[Largura][];
             for(int i = 0; i < this.Largura; i++){
-                ElementoDoExercito[] elementos = this.Casas[i];
-                elementos = new ElementoDoExercito[Altura];
+                this.Casas[i] = new ElementoDoExercito[Altura];
             }
 
             for(int i=0; i< this.Largura; i++)
@@ -46,7 +45,7 @@ namespace JogosDeGuerraModel
                 for( int j=0; j< this.Altura; j++)
                 {
                     //Ultima ou primeira fileira?
-                    Exercito exercito = (j == 0) ? exercito1 : exercito2;
+                    Exercito exercito = (j == 0 || j == 1) ? exercito1 : exercito2;
                     ElementoDoExercito elemento = null;
                     AbstractFactoryExercito factory = 
                         AbstractFactoryExercito.CriarFactoryExercito(exercito.Nacao);
@@ -63,12 +62,16 @@ namespace JogosDeGuerraModel
                         //Cria guerreiros
                         elemento = (ElementoDoExercito)factory.CriarGuerreiro();
                     }
+
                     //Se o elemento tiver sido instanciado criará o elemento no tabuleiro.
                     if (elemento != null)
                     {
+
                         exercito.Elementos.Add(elemento);
                         this.Casas[i][j] = elemento;
                     }
+
+
                 }
             }
         }

@@ -9,7 +9,8 @@ namespace JogosDeGuerraModel
     public class Exercito
     {
         public int Id { get; set; }
-        public ICollection<ElementoDoExercito> Elementos { get; set; }
+        public ICollection<ElementoDoExercito> Elementos { get; set; } =
+            new HashSet<ElementoDoExercito>();
 
         public Batalha Batalha { get; set; }
 

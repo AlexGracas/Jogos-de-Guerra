@@ -40,6 +40,47 @@ namespace JogosDeGuerraWebAPI.Controllers
             return ctx.Batalhas.Find(id);
         }
 
+        [Route("Iniciar")]
+        [HttpGet]
+        public Batalha IniciarBatalha(int id)
+        {
+            var usuario = this.ObterUsuarioLogado();
+            var batalha = ctx.Batalhas
+                .Include(b => b.ExercitoPreto)
+                .Include(b => b.ExercitoBranco)
+                .Include(b => b.Tabuleiro)
+                .Include(b => b.Turno)
+                .Where(b => 
+                (b.ExercitoBranco.Usuario.Email == usuario.Email 
+                || b.ExercitoPreto.Usuario.Email == usuario.Email)
+                && ( b.ExercitoBranco != null && b.ExercitoPreto != null) 
+                && b.Id == id ).FirstOrDefault();
+
+                        
+            if (batalha.Tabuleiro == null){
+                batalha.Tabuleiro = new Tabuleiro();
+                batalha.Tabuleiro.Altura = 8;
+                batalha.Tabuleiro.Largura = 8;
+            }
+
+
+
+            batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
+
+            if(batalha.Estado== Batalha.EstadoBatalhaEnum.NaoIniciado)
+            {
+                batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
+                Random r = new Random();
+                batalha.Turno = r.Next(100) < 50 
+                    ? batalha.ExercitoPreto : 
+                    batalha.ExercitoBranco;
+            }
+
+            return batalha;
+        }
+
+
+
         [Route("CriarNovaBatalha")]
         [HttpGet]
         public Batalha CriarNovaBatalha(AbstractFactoryExercito.Nacao Nacao)

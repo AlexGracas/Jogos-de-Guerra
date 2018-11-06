@@ -9,7 +9,7 @@ namespace JogosDeGuerraModel
     public class Batalha
     {
         public int Id { get; set; }
-        Tabuleiro Tabuleiro { get; set; }
+        public Tabuleiro Tabuleiro { get; set; }
 
         public Exercito ExercitoBranco { get; set; }
 
@@ -17,7 +17,15 @@ namespace JogosDeGuerraModel
 
         public Exercito Vencedor { get; set; } = null;
 
-        public Exercito Turno { get; private set; }
+        public Exercito Turno { get; set; }
+
+        public enum EstadoBatalhaEnum {
+            NaoIniciado =0,
+            Iniciado =1,
+            Finalizado =10,
+            Cancelado =99}
+
+        public EstadoBatalhaEnum Estado { get; set; } = 0;
 
         public bool VerificarAlcanceMovimento(Movimento movimento)
         {
