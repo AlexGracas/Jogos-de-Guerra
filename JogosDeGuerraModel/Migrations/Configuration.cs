@@ -9,8 +9,8 @@ namespace JogosDeGuerraModel.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "JogosDeGuerraModel.ModelJogosDeGuerra";
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(JogosDeGuerraModel.ModelJogosDeGuerra context)

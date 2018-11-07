@@ -67,14 +67,6 @@
     <Compile Include="GuerreiroEgipicio.cs" />
     <Compile Include="GuerreiroIndiano.cs" />
     <Compile Include="GuerreiroPersa.cs" />
-    <Compile Include="Migrations\201811061126356_InitialCreate.cs" />
-    <Compile Include="Migrations\201811061126356_InitialCreate.Designer.cs">
-      <DependentUpon>201811061126356_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811061251062_EstadoBatalha-20181106-Model.cs" />
-    <Compile Include="Migrations\201811061251062_EstadoBatalha-20181106-Model.Designer.cs">
-      <DependentUpon>201811061251062_EstadoBatalha-20181106-Model.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelJogosDeGuerra.cs" />
     <Compile Include="Usuario.cs" />
@@ -85,14 +77,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811061126356_InitialCreate.resx">
-      <DependentUpon>201811061126356_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811061251062_EstadoBatalha-20181106-Model.resx">
-      <DependentUpon>201811061251062_EstadoBatalha-20181106-Model.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

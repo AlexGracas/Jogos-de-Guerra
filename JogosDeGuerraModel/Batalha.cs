@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +10,26 @@ namespace JogosDeGuerraModel
     public class Batalha
     {
         public int Id { get; set; }
+
+        public int? TabuleiroId { get; set; }
+        [ForeignKey("TabuleiroId")]
         public Tabuleiro Tabuleiro { get; set; }
 
+
+        public int ExercitoBrancoId {get;set;}
+        [ForeignKey("ExercitoBrancoId")]
         public Exercito ExercitoBranco { get; set; }
 
+        public int? ExercitoPretoId { get; set; }
+        [ForeignKey("ExercitoPretoId")]
         public Exercito ExercitoPreto { get; set; }
 
+        public int? VencedorId { get; set; }
+        [ForeignKey("VencedorId")]
         public Exercito Vencedor { get; set; } = null;
 
+        public int? TurnoId { get; set; }
+        [ForeignKey("TurnoId")]
         public Exercito Turno { get; set; }
 
         public enum EstadoBatalhaEnum {
@@ -49,6 +62,33 @@ namespace JogosDeGuerraModel
             return false;
         }
 
+        public bool VerificarAlcanceAtaque(Movimento movimento)
+        {
+            return this.VerificarAlcanceMovimento(movimento);
+        }
+
+        public void CriarBatalha(
+          AbstractFactoryExercito.Nacao Nacao,
+          Usuario usuarioLogado)
+        {
+            Exercito e;
+            //Se não existir uma batalha cujo exercito preto seja vazio, criar uma nova batalha.
+            
+            if (this.ExercitoBranco == null)
+            {
+                this.ExercitoBranco = new Exercito();
+                e = this.ExercitoBranco;
+            }
+            //Caso exista, colocar-se como desafiante.
+            else
+            {
+                this.ExercitoPreto = new Exercito();
+                e = this.ExercitoPreto;
+            }
+            e.Nacao = Nacao;
+            e.Usuario = usuarioLogado;
+        }
+
         public bool Jogar (Movimento movimento)
         {
             if(movimento.TipoMovimento == Movimento.EnumTipoMovimento.Mover)
@@ -68,13 +108,23 @@ namespace JogosDeGuerraModel
                 //O destino do ataque deve estar ocupado.
                 if (this.Tabuleiro.Casas[movimento.Largura][movimento.Altura] != null)
                 {
-                    //Verificar se é possível
-                    if (VerificarAlcanceMovimento(movimento) == true)
+                    //Verificar se é possível atacar
+                    if (VerificarAlcanceAtaque(movimento) == true)
                     {
                         var oponente = this.Tabuleiro.Casas[movimento.Largura][movimento.Altura];
                         oponente.Saude -= movimento.Elemento.Ataque;
-                        if (oponente.Saude < 0)
+                        if (oponente.Saude < 0) {
                             oponente.Saude = 0;
+                            //Caso tenha matado um elemento verificar quantos
+                            //elementos vivos o oponente ainda tem.
+                            if (oponente.Exercito.ElementosVivos.Count == 0)
+                            {
+                                //Caso seja 0 a batalha terminou.
+                                this.Estado = EstadoBatalhaEnum.Finalizado;
+                                //O vencedor é o autor do movimento.
+                                this.Vencedor = movimento.Autor;
+                            }
+                        }
                         return true;
                     }
                 }
@@ -87,7 +137,18 @@ namespace JogosDeGuerraModel
     {
         public int Altura { get; set; }
         public int Largura { get; set; }
+
+        public int AutorId { get; set; }
+        [ForeignKey("AutorId")]
         public Exercito Autor { get; set; }
+
+        public int BatalhaId { get; set; }
+
+        [ForeignKey("BatalhaId")]
+        public Batalha Batalha { get; set; }
+
+        public int ElementoId { get; set; }
+        [ForeignKey("ElementoId")]
         public ElementoDoExercito Elemento { get; set; }
 
         public enum EnumTipoMovimento { Mover, Atacar}

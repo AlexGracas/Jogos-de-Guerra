@@ -63,10 +63,6 @@ namespace JogosDeGuerraWebAPI.Controllers
                 batalha.Tabuleiro.Largura = 8;
             }
 
-
-
-            batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
-
             if(batalha.Estado== Batalha.EstadoBatalhaEnum.NaoIniciado)
             {
                 batalha.Tabuleiro.IniciarJogo(batalha.ExercitoBranco, batalha.ExercitoPreto);
@@ -75,43 +71,46 @@ namespace JogosDeGuerraWebAPI.Controllers
                     ? batalha.ExercitoPreto : 
                     batalha.ExercitoBranco;
             }
-
+            ctx.SaveChanges();
             return batalha;
         }
 
+        public Batalha Jogar(Movimento movimento)
+        {
+            var batalha = ctx.Batalhas.Find(movimento.BatalhaId);
+            if (movimento.AutorId == batalha.TurnoId)
+            {
+                batalha.Jogar(movimento);
+            }
+            return batalha;
+        }
 
 
         [Route("CriarNovaBatalha")]
         [HttpGet]
         public Batalha CriarNovaBatalha(AbstractFactoryExercito.Nacao Nacao)
         {
-            Exercito e;
+            //Obter usuário LOgado
             var usuarioLogado = ObterUsuarioLogado();
+            //Verificar se existe uma batalha cujo exercito branco esteja definido
+            //E exercito Preto esteja em branco
             var batalha = ctx.Batalhas
                 .Include(x => x.ExercitoBranco.Usuario)
-                .Where(b => b.ExercitoPreto == null && b.ExercitoBranco.Usuario.Email != usuarioLogado.Email)
+                .Where(b => b.ExercitoPreto == null && 
+                    b.ExercitoBranco != null &&
+                    b.ExercitoBranco.Usuario.Email != usuarioLogado.Email)
                 .FirstOrDefault();
-            //Se não existir uma batalha cujo exercito preto seja vazio, criar uma nova batalha.
             if (batalha == null)
-            {
                 batalha = new Batalha();
-                batalha.ExercitoBranco = new Exercito();
-                e = batalha.ExercitoBranco;
-            }
-            //Caso exista, colocar-se como desafiante.
-            else
-            {
-                batalha.ExercitoPreto = new Exercito();
-                e = batalha.ExercitoPreto;
-            }            
-            e.Nacao = Nacao;
-            e.Usuario = usuarioLogado;
+            batalha.CriarBatalha(Nacao, usuarioLogado);
             ctx.Batalhas.AddOrUpdate(batalha);
             ctx.SaveChanges();
             //Não iria conseguir os Ids Corretos;
             //ctx.SaveChangesAsync();
             return batalha;
         }
+
+      
 
         // POST: api/Batalhas
         public void Post([FromBody]Batalha value)
