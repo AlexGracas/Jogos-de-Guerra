@@ -79,9 +79,22 @@ namespace JogosDeGuerraWebAPI.Controllers
         [HttpPost]
         public Batalha Jogar(Movimento movimento)
         {
-            movimento.Elemento = ctx.ElementosDoExercitos.Find(movimento.ElementoId);
-            movimento.Batalha = ctx.Batalhas.Find(movimento.BatalhaId);
+            movimento.Elemento = 
+                ctx.ElementosDoExercitos.Find(movimento.ElementoId);
+            if (movimento.Elemento == null)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(String.Format("O Elemento não existe.")),
+                    ReasonPhrase = "O elemento informado para movimento não existe."
+                };
+                throw new HttpResponseException(resp);
+            }
+
+            movimento.Batalha = 
+                ctx.Batalhas.Find(movimento.BatalhaId);
             var usuario = ObterUsuarioLogado();
+
             if (usuario.Id == movimento.AutorId)
             {
                 var batalha = ctx.Batalhas
@@ -91,6 +104,15 @@ namespace JogosDeGuerraWebAPI.Controllers
                     .Include(b => b.ExercitoBranco.Elementos)
                     .Include(b => b.ExercitoPreto.Elementos)
                     .Where(b => b.Id== movimento.BatalhaId).First();
+                if(movimento.AutorId != movimento.Elemento.Exercito.UsuarioId)
+                {
+                    var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
+                    {
+                        Content = new StringContent(String.Format("A peça não pertence ao usuário.")),
+                        ReasonPhrase = "Não foi possível executar o movimento."
+                    };
+                    throw new HttpResponseException(resp);
+                }
                 if (movimento.AutorId == batalha.TurnoId)
                 {
                     if (!batalha.Jogar(movimento))
@@ -108,7 +130,9 @@ namespace JogosDeGuerraWebAPI.Controllers
                 {
                     var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
                     {
-                        Content = new StringContent(String.Format("O turno atual é do adversário.")),
+                        Content = new StringContent(
+                            String
+                            .Format("O turno atual é do adversário.")),
                         ReasonPhrase = "Você não tem permissão para executar esta ação."
                     };
                     throw new HttpResponseException(resp);
@@ -118,8 +142,12 @@ namespace JogosDeGuerraWebAPI.Controllers
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
                 {
-                    Content = new StringContent(String.Format("O usuário tentou executar uma ação como se fosse outro usuário.")),
-                    ReasonPhrase = "Você não tem permissão para executar esta ação."
+                    Content = new StringContent(
+                        String
+                        .Format(
+                            "O usuário tentou executar uma ação como se fosse outro usuário.")),
+                    ReasonPhrase = 
+                    "Você não tem permissão para executar esta ação."
                 };
                 throw new HttpResponseException(resp);
             }           

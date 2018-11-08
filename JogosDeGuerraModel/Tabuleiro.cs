@@ -36,7 +36,9 @@ namespace JogosDeGuerraModel
 
         public ElementoDoExercito ObterElemento(Posicao p)
         {
-            return this.ElementosDoExercito.Where(e => e.posicao == p).FirstOrDefault();
+            return this.ElementosDoExercito
+                .Where(e => e.posicao == p)
+                .FirstOrDefault();
         }
         public Posicao ObterPosicao(ElementoDoExercito elemento)
         {

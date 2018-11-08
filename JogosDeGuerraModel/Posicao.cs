@@ -27,7 +27,8 @@ namespace JogosDeGuerraModel
             if(obj is Posicao)
             {
                 var pos2 = (Posicao)obj;
-                return pos2.Largura == this.Largura && pos2.Altura == this.Altura;
+                return pos2.Largura == this.Largura && 
+                    pos2.Altura == this.Altura;
             }
             return base.Equals(obj);
         }
