@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,33 +13,42 @@ namespace JogosDeGuerraModel
         public int Largura { get; set; }
 
         public int Altura { get; set; }
-
-        public ElementoDoExercito[][] Casas { get; set;}
-
-        public Posicao ObterPosicao(ElementoDoExercito elemento)
-        {
-            Posicao posicao = new Posicao();
-            posicao.Tabuleiro = this;
-            for (int i = 0; i < this.Largura; i++){
-                for(int j = 0; j ++ < this.Altura; j++)
+        /*
+        //Não Gerenciado pela EF
+        private Dictionary<Posicao, ElementoDoExercito> _Casas = null;
+        //Não Gerenciado pela EF
+        private Dictionary<Posicao, ElementoDoExercito> Casas { get {
+                if(_Casas == null)
                 {
-                    if (Casas[i][j] == elemento)
+                    _Casas = new Dictionary<Posicao, ElementoDoExercito>();
+                    foreach(ElementoDoExercito el in this.ElementosDoExercito)
                     {
-                        posicao.Largura = i;
-                        posicao.Altura = j;
-                        return posicao;
+                        this.Casas.Add(el.posicao, el);
                     }
                 }
+                return _Casas;
             }
-            return null;
+        }  
+        */
+        
+        [InverseProperty("Tabuleiro")]
+        public ICollection<ElementoDoExercito> ElementosDoExercito { get; set; }
+
+        public ElementoDoExercito ObterElemento(Posicao p)
+        {
+            return this.ElementosDoExercito.Where(e => e.posicao == p).FirstOrDefault();
+        }
+        public Posicao ObterPosicao(ElementoDoExercito elemento)
+        {
+            return elemento.posicao;
         }
 
         public void IniciarJogo(Exercito exercito1, Exercito exercito2)
         {
-            Casas = new ElementoDoExercito[Largura][];
+            /*Casas = new ElementoDoExercito[Largura][];
             for(int i = 0; i < this.Largura; i++){
                 this.Casas[i] = new ElementoDoExercito[Altura];
-            }
+            }*/
 
             for(int i=0; i< this.Largura; i++)
             {
@@ -68,7 +78,9 @@ namespace JogosDeGuerraModel
                     {
 
                         exercito.Elementos.Add(elemento);
-                        this.Casas[i][j] = elemento;
+                        elemento.posicao = new Posicao(i, j);
+                        elemento.Tabuleiro = this;
+//                        this.Casas.Add(elemento.posicao, elemento);
                     }
 
 
@@ -76,5 +88,11 @@ namespace JogosDeGuerraModel
             }
         }
 
+        internal void MoverElemento(Movimento movimento)
+        {
+            //this.Casas[ObterPosicao(movimento.Elemento)] = null;
+            //this.Casas[movimento.posicao] = movimento.Elemento;
+            movimento.Elemento.posicao = movimento.posicao;
+        }
     }
 }

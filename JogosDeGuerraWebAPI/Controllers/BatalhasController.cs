@@ -75,14 +75,29 @@ namespace JogosDeGuerraWebAPI.Controllers
             return batalha;
         }
 
+        [Route("Jogar")]
+        [HttpPost]
         public Batalha Jogar(Movimento movimento)
         {
-            var batalha = ctx.Batalhas.Find(movimento.BatalhaId);
-            if (movimento.AutorId == batalha.TurnoId)
+            movimento.Elemento = ctx.ElementosDoExercitos.Find(movimento.ElementoId);
+            movimento.Batalha = ctx.Batalhas.Find(movimento.BatalhaId);
+            var usuario = ObterUsuarioLogado();
+            if (usuario.Id == movimento.AutorId)
             {
-                batalha.Jogar(movimento);
+                var batalha = ctx.Batalhas
+                    .Include(b => b.ExercitoBranco)
+                    .Include(b => b.ExercitoPreto)
+                    .Include(b => b.Tabuleiro)
+                    .Include(b => b.ExercitoBranco.Elementos)
+                    .Include(b => b.ExercitoPreto.Elementos)
+                    .Where(b => b.Id== movimento.BatalhaId).First();
+                if (movimento.AutorId == batalha.TurnoId)
+                {
+                    batalha.Jogar(movimento);
+                }
+                return batalha;
             }
-            return batalha;
+            return null;
         }
 
 
@@ -101,7 +116,11 @@ namespace JogosDeGuerraWebAPI.Controllers
                     b.ExercitoBranco.Usuario.Email != usuarioLogado.Email)
                 .FirstOrDefault();
             if (batalha == null)
+            {
                 batalha = new Batalha();
+                ctx.Batalhas.AddOrUpdate(batalha);
+                ctx.SaveChanges();
+            }
             batalha.CriarBatalha(Nacao, usuarioLogado);
             ctx.Batalhas.AddOrUpdate(batalha);
             ctx.SaveChanges();

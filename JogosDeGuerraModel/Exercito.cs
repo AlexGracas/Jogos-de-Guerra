@@ -15,8 +15,13 @@ namespace JogosDeGuerraModel
         public ICollection<ElementoDoExercito> Elementos { get; set; } =
             new HashSet<ElementoDoExercito>();
 
+        public int? BatalhaId { get; set; }
+
+        [ForeignKey("BatalhaId")]
         public Batalha Batalha { get; set; }
 
+        public int UsuarioId { get; set; }
+        [ForeignKey("UsuarioId")]
         public Usuario Usuario { get; set; }
 
         public AbstractFactoryExercito.Nacao Nacao { get; set; }

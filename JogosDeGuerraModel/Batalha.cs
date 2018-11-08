@@ -16,7 +16,7 @@ namespace JogosDeGuerraModel
         public Tabuleiro Tabuleiro { get; set; }
 
 
-        public int ExercitoBrancoId {get;set;}
+        public int? ExercitoBrancoId {get;set;}
         [ForeignKey("ExercitoBrancoId")]
         public Exercito ExercitoBranco { get; set; }
 
@@ -43,21 +43,22 @@ namespace JogosDeGuerraModel
         public bool VerificarAlcanceMovimento(Movimento movimento)
         {
             
-                Posicao p = Tabuleiro.ObterPosicao(movimento.Elemento);
-                if (p.Largura == movimento.Largura || p.Altura == movimento.Altura)
-                {
-                    int movLargura = Math.Abs(p.Largura - movimento.Largura);
-                    int movAltura = Math.Abs(p.Altura - movimento.Altura);
-                    //Se for um movimento de ataque comparar com o alcançe do elemento 
-                    //para ataque. Caso seja um movimento comparar alcance para movimentação 
-                    int alcance = (movimento.TipoMovimento == Movimento.EnumTipoMovimento.Atacar) ?
-                            movimento.Elemento.AlcanceAtaque : movimento.Elemento.AlcanceMovimento;
-                    if ((movAltura > 0 && movAltura < alcance) ||
-                        (movLargura > 0 && movLargura < alcance))
-                    {
-                        return true;
-                    }
-                }
+        //Posição Atual
+        Posicao p = Tabuleiro.ObterPosicao(movimento.Elemento);
+        //Diferença entre a posição Atual e a nova.
+        int movLargura = Math.Abs(p.Largura - movimento.posicao.Largura);
+        int movAltura = Math.Abs(p.Altura - movimento.posicao.Altura);
+
+        //Se for um movimento de ataque comparar com o alcançe do elemento 
+        //para ataque. Caso seja um movimento comparar alcance para movimentação 
+        int alcance = (movimento.TipoMovimento == Movimento.EnumTipoMovimento.Atacar) ?
+                movimento.Elemento.AlcanceAtaque : movimento.Elemento.AlcanceMovimento;
+        if ((movAltura > 0 && movAltura <= alcance) ||
+            (movLargura > 0 && movLargura <= alcance))
+        {
+            return true;
+        }
+
             
             return false;
         }
@@ -86,7 +87,8 @@ namespace JogosDeGuerraModel
                 e = this.ExercitoPreto;
             }
             e.Nacao = Nacao;
-            e.Usuario = usuarioLogado;
+            e.BatalhaId = this.Id;
+            e.UsuarioId = usuarioLogado.Id;
         }
 
         public bool Jogar (Movimento movimento)
@@ -94,11 +96,11 @@ namespace JogosDeGuerraModel
             if(movimento.TipoMovimento == Movimento.EnumTipoMovimento.Mover)
             {
                 //O destino da movimentação da peça deve estar vazio.
-                if (this.Tabuleiro.Casas[movimento.Largura][movimento.Altura] == null)
+                if (this.Tabuleiro.ObterElemento(movimento.posicao) == null)
                 {
                     if (VerificarAlcanceMovimento(movimento) == true)
                     {
-                        this.Tabuleiro.Casas[movimento.Largura][movimento.Altura] = movimento.Elemento;
+                        this.Tabuleiro.MoverElemento(movimento);
                         return true;
                     }
                 }
@@ -106,12 +108,12 @@ namespace JogosDeGuerraModel
             else if(movimento.TipoMovimento == Movimento.EnumTipoMovimento.Atacar)
             {
                 //O destino do ataque deve estar ocupado.
-                if (this.Tabuleiro.Casas[movimento.Largura][movimento.Altura] != null)
+                if (this.Tabuleiro.ObterElemento(movimento.posicao) != null)
                 {
                     //Verificar se é possível atacar
                     if (VerificarAlcanceAtaque(movimento) == true)
                     {
-                        var oponente = this.Tabuleiro.Casas[movimento.Largura][movimento.Altura];
+                        var oponente = this.Tabuleiro.ObterElemento(movimento.posicao);
                         oponente.Saude -= movimento.Elemento.Ataque;
                         if (oponente.Saude < 0) {
                             oponente.Saude = 0;
@@ -135,8 +137,7 @@ namespace JogosDeGuerraModel
 
     public class Movimento
     {
-        public int Altura { get; set; }
-        public int Largura { get; set; }
+        public Posicao posicao { get; set; }
 
         public int AutorId { get; set; }
         [ForeignKey("AutorId")]

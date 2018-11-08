@@ -33,6 +33,8 @@ namespace JogosDeGuerraModel
 
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
+        public virtual DbSet<ElementoDoExercito> ElementosDoExercitos { get; set; }
+
     }
         
 }

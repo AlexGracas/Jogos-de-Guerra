@@ -12,8 +12,11 @@ namespace JogosDeGuerraModel
         public int Id { get; set; }
         public int Saude { get; set; }
 
+        public Posicao posicao { get; set; }
+        
         public int TabuleiroId { get; set; }
         [ForeignKey("TabuleiroId")]
+        [InverseProperty("ElementosDoExercito")]
         public Tabuleiro Tabuleiro { get; set; }
 
         public int ExercitoId { get; set; }

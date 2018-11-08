@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace JogosDeGuerraWebAPI
@@ -16,6 +18,9 @@ namespace JogosDeGuerraWebAPI
             // Configure a API Web para usar somente a autenticação de token de portador.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
             // Rotas de API Web
             config.MapHttpAttributeRoutes();
