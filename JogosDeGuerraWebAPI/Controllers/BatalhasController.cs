@@ -93,11 +93,36 @@ namespace JogosDeGuerraWebAPI.Controllers
                     .Where(b => b.Id== movimento.BatalhaId).First();
                 if (movimento.AutorId == batalha.TurnoId)
                 {
-                    batalha.Jogar(movimento);
+                    if (!batalha.Jogar(movimento))
+                    {
+                        var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                        {
+                            Content = new StringContent(String.Format("Não foi possível executar o movimento.")),
+                            ReasonPhrase = "Não foi possível executar o movimento."
+                        };
+                        throw new HttpResponseException(resp);
+                    }
+                    return batalha;
                 }
-                return batalha;
+                else
+                {
+                    var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
+                    {
+                        Content = new StringContent(String.Format("O turno atual é do adversário.")),
+                        ReasonPhrase = "Você não tem permissão para executar esta ação."
+                    };
+                    throw new HttpResponseException(resp);
+                }
             }
-            return null;
+            else
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.Forbidden)
+                {
+                    Content = new StringContent(String.Format("O usuário tentou executar uma ação como se fosse outro usuário.")),
+                    ReasonPhrase = "Você não tem permissão para executar esta ação."
+                };
+                throw new HttpResponseException(resp);
+            }           
         }
 
 
