@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Tabuleiro";
+}
+<h2>Tabuleiro</h2>
+<div id="tabuleiro">
+</div>
+<div id="info">
+    <ul>
+        <li>Casa selecionada: <span id="info_casa_selecionada" /></li>
+        <li>Peca selecionada: <span id="info_peca_selecionada" /></li>
+    </ul>
+</div>
+
+@Styles.Render("~/Content/TabuleiroEstilo.css")
+@section MeusScripts{
+    <script src="~/Scripts/Tabuleiro.js"></script>
+}
+
+

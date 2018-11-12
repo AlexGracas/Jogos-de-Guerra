@@ -14,5 +14,12 @@ namespace JogosDeGuerraWebAPI.Controllers
 
             return View();
         }
+
+        public ActionResult Tabuleiro()
+        {
+            ViewBag.Title = "Tabuleiro";
+
+            return View();
+        }
     }
 }
