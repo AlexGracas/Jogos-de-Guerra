@@ -11,6 +11,15 @@ namespace JogosDeGuerraWebAPI.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
+            bool usuarioAutenticado = 
+                Utils.Utils.ObterUsuarioLogado(
+                    new JogosDeGuerraModel.ModelJogosDeGuerra()
+                    ) != null;
+
+            if (!usuarioAutenticado)
+            {
+                return RedirectToAction("Login");
+            }
 
             return View();
         }
@@ -50,5 +59,6 @@ namespace JogosDeGuerraWebAPI.Controllers
             */
             return View();
         }
+
     }
 }

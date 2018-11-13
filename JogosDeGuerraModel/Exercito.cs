@@ -9,6 +9,18 @@ namespace JogosDeGuerraModel
 {
     public class Exercito
     {
+        public override bool Equals(object obj)
+        {
+            if(obj is Exercito)
+                return ((Exercito)obj).Id == this.Id;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
         public int Id { get; set; }
 
         [InverseProperty("Exercito")]

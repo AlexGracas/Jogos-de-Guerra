@@ -9,6 +9,18 @@ namespace JogosDeGuerraModel
 {
     public class Batalha
     {
+        public override bool Equals(object obj)
+        {
+            if (obj is Batalha)
+                return ((Batalha)obj).Id == this.Id;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
         public int Id { get; set; }
 
         public int? TabuleiroId { get; set; }

@@ -5,7 +5,9 @@
  * **/
 
 $(function () {
-    var baseUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    var baseUrl = window.location.protocol + "//" +
+        window.location.hostname +
+        (window.location.port ? ':' + window.location.port : '');
     var casa_selecionada = null;
     var batalha = null;
     var peca_selecionadaId = null;
@@ -14,7 +16,7 @@ $(function () {
     var pecaElem = null;
     var elementos = null;
     //1 CriarNovaBatalha, 2 RetomarBatalha
-    var urlIniciarBatalha = "http://localhost:49946/api/Batalhas/Iniciar?Id=2";
+    var urlIniciarBatalha = baseUrl + "/api/Batalhas/Iniciar?Id=2";
 
     var token = sessionStorage.getItem("accessToken");
     var headers = {};
@@ -41,10 +43,10 @@ $(function () {
         var ExercitoBrancoId = batalha.ExercitoBrancoId;
         var ExercitoPretoId = batalha.ExercitoPretoId;
         var i;
-        for (i = 0; i < batalha.Tabuleiro.Largura; i++) {
+        for (i = 0; i < batalha.Tabuleiro.Altura; i++) {
             $("#tabuleiro").append("<div id='linha_" + i.toString() + "' class='linha' >");
             pecasNoTabuleiro[i] = [];
-            for (j = 0; j < batalha.Tabuleiro.Altura; j++) {
+            for (j = 0; j < batalha.Tabuleiro.Largura; j++) {
                 var nome_casa = "casa_" + i.toString() + "_" + j.toString();
                 var classe = (i % 2 == 0 ? (j % 2 == 0 ? "casa_branca" : "casa_preta") : (j % 2 != 0 ? "casa_branca" : "casa_preta"));
                 $("#linha_" + i.toString()).append("<div id='" + nome_casa + "' class='casa " + classe + "' />");
@@ -56,7 +58,7 @@ $(function () {
                             $("#" + nome_casa).append("<img src='https://www.w3schools.com/images/compatible_firefox.gif' class='peca' id='" + nome_casa.replace("casa", "peca_preta") + "'/>");
                         }
                         else if (pecas[x].ExercitoId == ExercitoPretoId) {
-                                $("#" + nome_casa).append("<img src='https://www.w3schools.com/images/compatible_safari.gif' class='peca' id='" + nome_casa.replace("casa", "peca_branca") + "'/>");
+                            $("#" + nome_casa).append("<img src='https://www.w3schools.com/images/compatible_safari.gif' class='peca' id='" + nome_casa.replace("casa", "peca_branca") + "'/>");
                         }
 
                     }                    
@@ -73,8 +75,8 @@ $(function () {
             $("#" + casa_selecionada).addClass("casa_selecionada");
             //Legenda que mostra informações da casa selecionada.
             $("#info_casa_selecionada").text(casa_selecionada);
-            var largura = casa_selecionada.split("_")[1]
-            var altura = casa_selecionada.split("_")[2]
+            var altura = casa_selecionada.split("_")[1]
+            var largura = casa_selecionada.split("_")[2]
             if (pecaElem == null) {
                 //Obter o id da imagem selecionada.
                 peca_selecionadaId = $("#" + casa_selecionada).children("img:first").attr("id");
@@ -85,7 +87,7 @@ $(function () {
                 } else {
                     //Guardar a peça selecionada.
                     pecaElem = document.getElementById(peca_selecionadaId);
-                    pecaSelecionadaObj = pecasNoTabuleiro[largura][altura];
+                    pecaSelecionadaObj = pecasNoTabuleiro[altura][largura];
                 }
                 //Legenda que mostra informações da peça selecionada.
                 $("#info_peca_selecionada").text(peca_selecionadaId.toString());
@@ -100,7 +102,20 @@ $(function () {
                     BatalhaId: batalha.Id,
                     ElementoId: pecaSelecionadaObj.Id
                 };
-                Mover(movimento,pecaElem.parentNode, document.getElementById(casa_selecionada), pecaElem);
+                var EmailUsuario = sessionStorage.getItem("emailUsuario");
+
+
+                if( batalha.Turno.Usuario.Email == EmailUsuario &&
+                    batalha.Turno.Id == pecaSelecionadaObj.ExercitoId
+                    ){
+                    Mover(movimento, pecaElem.parentNode, document.getElementById(casa_selecionada), pecaElem);
+                }else if(batalha.Turno.Usuario.Email != EmailUsuario){
+                    alert("Não é a sua vez!");
+                }else if(batalha.Turno.Id != pecaSelecionadaObj.ExercitoId){
+                    alert("Não é o seu exercito!");
+                }
+            
+
                 pecaElem = null;
             }
         });

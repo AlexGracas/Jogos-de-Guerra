@@ -9,6 +9,17 @@ namespace JogosDeGuerraModel
 {
     public class Tabuleiro
     {
+        public override bool Equals(object obj)
+        {
+            if (obj is Tabuleiro)
+                return ((Tabuleiro)obj).Id == this.Id;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
         public int Id { get; set; }
         public int Largura { get; set; }
 

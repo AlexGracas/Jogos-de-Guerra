@@ -59,7 +59,11 @@
 
     
     function login() {
-
+        var baseUrl =
+            window.location.protocol +
+            "//" +
+            window.location.hostname +
+            (window.location.port ? ':' + window.location.port : '');
         var loginData = {
             grant_type: 'password',
             username: document.getElementById("loginEmail").value,
@@ -67,12 +71,13 @@
         };
         $.ajax({
             type: 'POST',
-            url: '/Token',
+            url: baseUrl +'/Token',
             data: loginData
         }).done(function (data) {
             alert("Ola! Certo");
             // Cache the access token in session storage.
             sessionStorage.setItem('accessToken', data.token_type + " " + data.access_token);
+            sessionStorage.setItem('emailUsuario', data.userName);
         }).fail(showError);
     }
 </script>

@@ -43,12 +43,13 @@ namespace JogosDeGuerraWebAPI.Controllers
         [HttpGet]
         public Batalha IniciarBatalha(int id)
         {
-            var usuario = this.ObterUsuarioLogado();
+            var usuario = Utils.Utils.ObterUsuarioLogado(ctx);
             var batalha = ctx.Batalhas
                 .Include(b => b.ExercitoPreto)
                 .Include(b => b.ExercitoBranco)
                 .Include(b => b.Tabuleiro)
                 .Include(b => b.Turno)
+                .Include(b => b.Turno.Usuario)
                 .Where(b => 
                 (b.ExercitoBranco.Usuario.Email == usuario.Email 
                 || b.ExercitoPreto.Usuario.Email == usuario.Email)
@@ -100,7 +101,7 @@ namespace JogosDeGuerraWebAPI.Controllers
 
             movimento.Batalha = 
                 ctx.Batalhas.Find(movimento.BatalhaId);
-            var usuario = ObterUsuarioLogado();
+            var usuario = Utils.Utils.ObterUsuarioLogado(ctx);
 
             if (usuario.Id == movimento.AutorId)
             {
@@ -120,7 +121,7 @@ namespace JogosDeGuerraWebAPI.Controllers
                     };
                     throw new HttpResponseException(resp);
                 }
-                if (movimento.AutorId == batalha.TurnoId)
+                if (movimento.AutorId == batalha.Turno.UsuarioId)
                 {
                     if (!batalha.Jogar(movimento))
                     {
@@ -165,8 +166,9 @@ namespace JogosDeGuerraWebAPI.Controllers
         [HttpGet]
         public Batalha CriarNovaBatalha(AbstractFactoryExercito.Nacao Nacao)
         {
+
             //Obter usuário LOgado
-            var usuarioLogado = ObterUsuarioLogado();
+            var usuarioLogado = Utils.Utils.ObterUsuarioLogado(ctx);
             //Verificar se existe uma batalha cujo exercito branco esteja definido
             //E exercito Preto esteja em branco
             var batalha = ctx.Batalhas
@@ -207,23 +209,6 @@ namespace JogosDeGuerraWebAPI.Controllers
         {
         }
 
-        private Usuario ObterUsuarioLogado()
-        {
-            var ident = System.Web.HttpContext.Current.User.Identity;
-            if (ident.IsAuthenticated)
-            {
-                var usuario = ctx.Usuarios.Where(u => u.Email == ident.Name).SingleOrDefault();
-                if(usuario == null)
-                {
-                    Usuario u = new Usuario();
-                    u.Email = ident.Name;
-                    ctx.Usuarios.Add(u);
-                    ctx.SaveChanges();
-                    return u;
-                }
-                return usuario;
-            }
-            return null;
-        }
+       
     }
 }

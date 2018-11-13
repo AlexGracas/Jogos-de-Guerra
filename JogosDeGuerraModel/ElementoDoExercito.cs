@@ -9,6 +9,27 @@ namespace JogosDeGuerraModel
 {
     public abstract class ElementoDoExercito
     {
+        public override bool Equals(object obj)
+        {
+            if (obj is ElementoDoExercito && this.Id > 0)
+            {
+                return ((ElementoDoExercito)obj).Id == this.Id;
+            }
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            if (this.Id > 0)
+            {
+                return this.Id.GetHashCode();
+            }
+            else
+            {
+                return base.GetHashCode();
+            }
+        }
+
         public int Id { get; set; }
         public int Saude { get; set; }
 
