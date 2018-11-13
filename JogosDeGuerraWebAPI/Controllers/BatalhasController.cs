@@ -35,8 +35,7 @@ namespace JogosDeGuerraWebAPI.Controllers
 
         // GET: api/Batalhas/5
         public Batalha Get(int id)
-        {
-            
+        {           
             return ctx.Batalhas.Find(id);
         }
 
@@ -55,7 +54,15 @@ namespace JogosDeGuerraWebAPI.Controllers
                 || b.ExercitoPreto.Usuario.Email == usuario.Email)
                 && ( b.ExercitoBranco != null && b.ExercitoPreto != null) 
                 && b.Id == id ).FirstOrDefault();
-
+            if (batalha == null)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(String.Format("Não foi possível carregar a Batalha.")),
+                    ReasonPhrase = "Não foi possível carregar a batalha."
+                };
+                throw new HttpResponseException(resp);
+            }
                         
             if (batalha.Tabuleiro == null){
                 batalha.Tabuleiro = new Tabuleiro();

@@ -20,7 +20,10 @@ namespace JogosDeGuerraWebAPI
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            //Possibiltiar a serialização/deserialização de referências circulares.
             jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //Para possibilitar a deserialização de lista de interfaces e objetos abstratos.
+            jsonFormatter.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
 
             // Rotas de API Web
             config.MapHttpAttributeRoutes();
