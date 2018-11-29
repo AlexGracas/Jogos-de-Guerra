@@ -21,7 +21,9 @@ namespace JogosDeGuerraWebAPI
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             //Possibiltiar a serialização/deserialização de referências circulares.
-            jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling= Newtonsoft.Json.PreserveReferencesHandling.Objects;
             //Para possibilitar a deserialização de lista de interfaces e objetos abstratos.
             jsonFormatter.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
 

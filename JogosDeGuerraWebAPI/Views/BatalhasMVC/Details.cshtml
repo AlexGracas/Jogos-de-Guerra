@@ -1,0 +1,66 @@
+﻿@model JogosDeGuerraModel.Batalha
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Batalha</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExercitoBranco.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExercitoBranco.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExercitoPreto.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExercitoPreto.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tabuleiro.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tabuleiro.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Turno.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Turno.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vencedor.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vencedor.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

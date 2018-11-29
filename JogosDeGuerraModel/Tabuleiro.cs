@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
+    [DataContract(IsReference = true)]
     public class Tabuleiro
     {
         public override bool Equals(object obj)
@@ -20,35 +22,22 @@ namespace JogosDeGuerraModel
         {
             return this.Id.GetHashCode();
         }
+        [DataMember]
         public int Id { get; set; }
+        [DataMember]
         public int Largura { get; set; }
 
+        [DataMember]
         public int Altura { get; set; }
-        /*
-        //Não Gerenciado pela EF
-        private Dictionary<Posicao, ElementoDoExercito> _Casas = null;
-        //Não Gerenciado pela EF
-        private Dictionary<Posicao, ElementoDoExercito> Casas { get {
-                if(_Casas == null)
-                {
-                    _Casas = new Dictionary<Posicao, ElementoDoExercito>();
-                    foreach(ElementoDoExercito el in this.ElementosDoExercito)
-                    {
-                        this.Casas.Add(el.posicao, el);
-                    }
-                }
-                return _Casas;
-            }
-        }  
-        */
-        
+
+        [DataMember]
         [InverseProperty("Tabuleiro")]
         public ICollection<ElementoDoExercito> ElementosDoExercito { get; set; }
 
         public ElementoDoExercito ObterElemento(Posicao p)
         {
             return this.ElementosDoExercito
-                .Where(e => e.posicao == p)
+                .Where(e => e.posicao.Equals(p))
                 .FirstOrDefault();
         }
         public Posicao ObterPosicao(ElementoDoExercito elemento)

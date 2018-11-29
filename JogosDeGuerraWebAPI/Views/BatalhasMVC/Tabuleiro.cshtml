@@ -13,20 +13,14 @@
 </div>
 @Styles.Render("~/Content/TabuleiroEstilo.css")
 @section MeusScripts{
+
     <script src="~/Scripts/Tabuleiro.js"></script>
     <script type="text/javascript">
         $(function () {
-            var batalha = @Html.Raw(Json.Encode(Model));
-            if (batalha == null) {
-                RequisitarTabuleiro();
-            }
-            if (batalha.Tabuleiro == null) {
-                RequisitarTabuleiro();
-            }
-            MontarTabuleiro(batalha);
+            var batalhaId = @Html.Raw(Json.Encode(ViewBag.Id));
+            ObterBatalha(batalhaId);
         });
-</script>)
-    </script>
+</script>
 }
 
 

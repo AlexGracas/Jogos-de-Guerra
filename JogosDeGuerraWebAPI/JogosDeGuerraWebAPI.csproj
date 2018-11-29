@@ -229,6 +229,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BatalhasController.cs" />
+    <Compile Include="Controllers\BatalhasMVCController.cs" />
     <Compile Include="Controllers\ExercitosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -287,6 +288,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Cycle.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -315,6 +317,12 @@
     <Content Include="Views\Home\Tabuleiro.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\BatalhasMVC\Create.cshtml" />
+    <Content Include="Views\BatalhasMVC\Delete.cshtml" />
+    <Content Include="Views\BatalhasMVC\Details.cshtml" />
+    <Content Include="Views\BatalhasMVC\Edit.cshtml" />
+    <Content Include="Views\BatalhasMVC\Index.cshtml" />
+    <Content Include="Views\BatalhasMVC\Tabuleiro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

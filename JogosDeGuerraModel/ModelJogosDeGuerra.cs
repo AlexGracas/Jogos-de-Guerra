@@ -35,6 +35,7 @@ namespace JogosDeGuerraModel
 
         public virtual DbSet<ElementoDoExercito> ElementosDoExercitos { get; set; }
 
+        public System.Data.Entity.DbSet<JogosDeGuerraModel.Tabuleiro> Tabuleiroes { get; set; }
     }
         
 }

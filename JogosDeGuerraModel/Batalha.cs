@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JogosDeGuerraModel
 {
+    [DataContract(IsReference=true)]
     public class Batalha
     {
         public override bool Equals(object obj)
@@ -21,26 +23,33 @@ namespace JogosDeGuerraModel
             return this.Id.GetHashCode();
         }
 
+        [DataMember]
         public int Id { get; set; }
 
+        [DataMember]
         public int? TabuleiroId { get; set; }
+        [DataMember]
         [ForeignKey("TabuleiroId")]
         public Tabuleiro Tabuleiro { get; set; }
 
-
+        [DataMember]
         public int? ExercitoBrancoId {get;set;}
         [ForeignKey("ExercitoBrancoId")]
+        [DataMember]
         public Exercito ExercitoBranco { get; set; }
-
+        [DataMember]
         public int? ExercitoPretoId { get; set; }
+        [DataMember]
         [ForeignKey("ExercitoPretoId")]
         public Exercito ExercitoPreto { get; set; }
-
+        [DataMember]
         public int? VencedorId { get; set; }
+
         [ForeignKey("VencedorId")]
         public Exercito Vencedor { get; set; } = null;
-
+        [DataMember]
         public int? TurnoId { get; set; }
+
         [ForeignKey("TurnoId")]
         public Exercito Turno { get; set; }
 
@@ -49,7 +58,7 @@ namespace JogosDeGuerraModel
             Iniciado =1,
             Finalizado =10,
             Cancelado =99}
-
+        [DataMember]
         public EstadoBatalhaEnum Estado { get; set; } = 0;
 
         public bool VerificarAlcanceMovimento(Movimento movimento)
